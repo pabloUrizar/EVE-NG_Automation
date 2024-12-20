@@ -1,0 +1,249 @@
+---
+- name: Déployer VMs EVE-NG
+  hosts: localhost
+  gather_facts: no
+  vars_files:
+    - ../vars/vars.yml
+    - ../vars/variables.yml
+
+  tasks:
+    - name: Générer les adresses IP et les noms de VMs dynamiquement
+      set_fact:
+        vm_ip_map: >
+          {{ vm_ip_map | default({}) | combine({
+              'RXI_VM_' ~ (starting_ip + item): (ip_prefix ~ '.' ~ (starting_ip + item | int))
+          }) }}
+      loop: "{{ range(0, vm_count) | list }}"
+
+    - name: Récupérer la liste des VMs dans Vault
+      community.hashi_vault.vault_list:
+        url: "{{ vault_url }}"
+        path: "{{ vault_path_read }}"
+        auth_method: ldap
+        username: "{{ vault_username }}"
+        password: "{{ vault_password }}"
+        validate_certs: no
+      register: vm_list
+      failed_when: false
+
+    - name: Initialiser vm_password_map si Vault est vide
+      set_fact:
+        vm_password_map: {}
+      when: vm_list.failed or (vm_list.data is not defined or vm_list.data.data['keys'] | length == 0)
+
+    - name: Charger les données des VMs depuis Vault
+      community.hashi_vault.vault_read:
+        url: "{{ vault_url }}"
+        path: "{{ vault_path_read | regex_replace('metadata/', 'data/') }}{{ item }}"
+        auth_method: ldap
+        username: "{{ vault_username }}"
+        password: "{{ vault_password }}"
+        validate_certs: no
+      loop: "{{ vm_list.data.data['keys'] | default([]) }}"
+      loop_control:
+        label: "{{ item }}"
+      register: vm_data
+      when: not vm_list.failed and (vm_list.data.data['keys'] | length > 0)
+
+    - name: Construire vm_password_map à partir des données de Vault
+      set_fact:
+        vm_password_map: >
+          {{ vm_password_map | default({}) | combine({ item.data.data.data.hostname: {'ip': item.data.data.data.ip, 'password': item.data.data.data.password, 'username': item.data.data.data.username} }) }}
+      loop: "{{ vm_data.results }}"
+      when: vm_data.results | length > 0
+
+    - name: Cloner des VMs à partir de "{{ vm_template }}"
+      community.vmware.vmware_guest:
+        hostname: "{{ vcenter_hostname }}"
+        username: "{{ vcenter_username }}"
+        password: "{{ vcenter_password }}"
+        validate_certs: no
+        name: "{{ item.key }}"
+        template: "{{ vm_template }}"
+        folder: "{{ vm_folder }}"
+        state: poweredon
+        datacenter: "{{ vm_datacenter }}"
+        datastore: "{{ vm_datastore }}"
+        networks:
+          - name: "{{ network_name }}"
+            ip: "{{ item.value }}"
+            netmask: "{{ subnet_mask }}"
+            gateway: "{{ gateway }}"
+            dns_servers: "{{ dns_servers }}"
+        wait_for_ip_address: yes
+      register: cloned_vm
+      loop: "{{ vm_ip_map | dict2items }}"
+
+    - name: Attendre que les VMs soient prêtes
+      ansible.builtin.wait_for:
+        host: "{{ item.value }}"
+        port: 22
+        delay: 10
+        timeout: 200
+      delegate_to: localhost
+      loop: "{{ vm_ip_map | dict2items }}"
+
+    - name: Vérifier si l'utilisateur "{{ local_username }}" existe
+      ansible.builtin.getent:
+        database: passwd
+        key: "{{ local_username }}"
+      register: user_check
+      delegate_to: "{{ item.value }}"
+      loop: "{{ vm_ip_map | dict2items }}"
+      ignore_errors: yes
+      vars:
+        ansible_user: "{{ ssh_user }}"
+        ansible_password: "{{ ssh_password }}"
+        ansible_ssh_common_args: '-o StrictHostKeyChecking=no'
+
+    - name: Générer un mot de passe aléatoire
+      ansible.builtin.command: "openssl rand -base64 8"
+      register: generated_password
+      loop: "{{ vm_ip_map | dict2items }}"
+      loop_control:
+        label: "{{ item.key }}"
+        index_var: loop_index
+      when: vm_password_map[item.key] is not defined
+      vars:
+        ansible_user: "{{ ssh_user }}"
+        ansible_password: "{{ ssh_password }}"
+        ansible_ssh_common_args: '-o StrictHostKeyChecking=no'
+
+    - name: Stocker le mot de passe généré et l'adresse IP
+      set_fact:
+        vm_password_map: "{{ vm_password_map | combine({ item.key: {'password': generated_password.results[loop_index].stdout, 'ip': item.value, 'generated': true} }) }}"
+      loop: "{{ vm_ip_map | dict2items }}"
+      loop_control:
+        index_var: loop_index
+      when: generated_password.results | length > 0 and generated_password.results[loop_index].stdout is defined
+
+    - name: Sauvegarder les identifiants dans Vault
+      community.hashi_vault.vault_write:
+        url: "{{ vault_url }}"
+        path: "{{ vault_path }}{{ item.key }}"
+        auth_method: ldap
+        username: "{{ vault_username }}"
+        password: "{{ vault_password }}"
+        validate_certs: no
+        data:
+          data:
+            hostname: "{{ item.key }}"
+            ip: "{{ item.value }}"
+            username: "{{ local_username }}"
+            password: "{{ vm_password_map[item.key].password }}"
+      loop: "{{ vm_ip_map | dict2items }}"
+      when: vm_password_map[item.key].generated is defined and vm_password_map[item.key].generated == true
+      delegate_to: localhost
+
+    - name: Hacher le mot de passe avec SHA-512 pour chaque VM
+      set_fact:
+        hashed_password_map: "{{ hashed_password_map | default({}) | combine({ item.key: (vm_password_map[item.key].password | password_hash('sha512')) }) }}"
+      loop: "{{ vm_ip_map | dict2items }}"
+      when: vm_password_map is defined
+
+    - name: Créer l'utilisateur système
+      ansible.builtin.user:
+        name: "{{ local_username }}"
+        password: "{{ hashed_password_map[item.key] }}"
+        shell: /bin/bash
+        state: present
+        update_password: on_create
+      delegate_to: "{{ item.value }}"
+      become: yes
+      become_method: sudo
+      vars:
+        ansible_user: "{{ ssh_user }}"
+        ansible_password: "{{ ssh_password }}"
+        ansible_ssh_common_args: '-o StrictHostKeyChecking=no'
+      loop: "{{ vm_ip_map | dict2items }}"
+      when: user_check.results[loop_index].getent is not defined
+
+    - name: Ajouter l'utilisateur dans les sudoers
+      ansible.builtin.lineinfile:
+        path: /etc/sudoers
+        state: present
+        regexp: "^{{ local_username }} "
+        line: "{{ local_username }} ALL=(ALL) NOPASSWD:ALL"
+        validate: 'visudo -cf %s'
+      delegate_to: "{{ item.value }}"
+      become: yes
+      become_method: sudo
+      vars:
+        ansible_user: "{{ ssh_user }}"
+        ansible_password: "{{ ssh_password }}"
+        ansible_ssh_common_args: '-o StrictHostKeyChecking=no'
+      loop: "{{ vm_ip_map | dict2items }}"
+
+    - name: Authentifier l'utilisateur EVE-NG
+      uri:
+        url: "http://{{ item.value }}/api/auth/login"
+        method: POST
+        headers:
+          Content-Type: "application/json"
+        body_format: json
+        body:
+          username: "{{ eve_ng_username }}"
+          password: "{{ eve_ng_password }}"
+        return_content: yes
+      register: login_response
+      delegate_to: localhost
+      loop: "{{ vm_ip_map | dict2items }}"
+
+    - name: Extraire les cookies de session
+      set_fact:
+        vm_cookies: "{{ vm_cookies | default({}) | combine({ item.item.key: item.cookies.unetlab_session }) }}"
+      loop: "{{ login_response.results }}"
+      loop_control:
+        label: "{{ item.item.key }}"
+      when: "'cookies' in item"
+
+    - name: Créer l'utilisateur "{{ local_username }}" sur EVE-NG
+      uri:
+        url: "http://{{ item.value }}/api/users"
+        method: POST
+        headers:
+          Content-Type: "application/json"
+          Cookie: "unetlab_session={{ vm_cookies[item.key] }}"
+        body_format: json
+        body:
+          username: "{{ local_username }}"
+          password: "{{ vm_password_map[item.key].password }}"
+          role: "{{ role }}"
+      register: eve_ng_user_creation
+      delegate_to: localhost
+      loop: "{{ vm_ip_map | dict2items }}"
+      failed_when: "'Cannot create user' not in eve_ng_user_creation.json.message and eve_ng_user_creation.status != 201"
+
+    - name: Exécuter le script Python pour générer la licence IOL
+      ansible.builtin.shell: "python3 /opt/unetlab/addons/iol/bin/gen_lic.py"
+      register: gen_lic_output
+      delegate_to: "{{ item.value }}"
+      loop: "{{ vm_ip_map | dict2items }}"
+      vars:
+        ansible_user: "{{ ssh_user }}"
+        ansible_password: "{{ ssh_password }}"
+        ansible_ssh_common_args: '-o StrictHostKeyChecking=no'
+
+    - name: Extraire les données pertinentes de stdout
+      set_fact:
+        license_data: >
+          {{ license_data | default({}) | combine({
+              item.item.key: 
+                (item.stdout_lines | select("search", ".*=.*;") | list | first | default(''))
+          }) }}
+      loop: "{{ gen_lic_output.results }}"
+      loop_control:
+        label: "{{ item.item.key }}"
+
+    - name: Écrire les informations de licence dans iourc
+      ansible.builtin.copy:
+        dest: /opt/unetlab/addons/iol/bin/iourc
+        content: |
+          [license]
+          {{ license_data[item.key] }}
+      delegate_to: "{{ item.value }}"
+      loop: "{{ vm_ip_map | dict2items }}"
+      vars:
+        ansible_user: "{{ ssh_user }}"
+        ansible_password: "{{ ssh_password }}"
+        ansible_ssh_common_args: '-o StrictHostKeyChecking=no'

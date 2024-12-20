@@ -1,0 +1,68 @@
+---
+- name: Copier lab.unl sur les VMs EVE-NG
+  hosts: localhost
+  gather_facts: no
+
+  vars_files:
+    - ../vars/vars.yml
+    - ../vars/variables.yml
+
+  tasks:
+    - name: Récupérer la liste des VMs dans Vault
+      community.hashi_vault.vault_list:
+        url: "{{ vault_url }}"
+        path: "{{ vault_path_read }}"
+        auth_method: ldap
+        username: "{{ vault_username }}"
+        password: "{{ vault_password }}"
+        validate_certs: no
+      register: vm_list
+      failed_when: false
+
+    - name: Charger les informations des VMs depuis Vault
+      community.hashi_vault.vault_read:
+        url: "{{ vault_url }}"
+        path: "{{ vault_path }}{{ item }}"
+        auth_method: ldap
+        username: "{{ vault_username }}"
+        password: "{{ vault_password }}"
+        validate_certs: no
+      loop: "{{ vm_list.data.data['keys'] | default([]) }}"
+      loop_control:
+        label: "{{ item }}"
+      register: vm_data
+      when: not vm_list.failed
+
+    - name: Construire vm_ip_map à partir des données de Vault
+      set_fact:
+        vm_ip_map: >
+          {{ vm_ip_map | default({}) | combine({ item.data.data.data.hostname: item.data.data.data.ip }) }}
+      loop: "{{ vm_data.results }}"
+      loop_control:
+        label: "{{ item.data.data.data.hostname }}"
+      when: vm_data.results | length > 0
+
+    - name: Vérifier si le fichier {{ source_file }} existe
+      ansible.builtin.stat:
+        path: "{{ source_file }}"
+      register: lab_unl_check
+
+    - name: Arrêter l'exécution si lab.unl n'existe pas
+      ansible.builtin.fail:
+        msg: "Le fichier {{ source_file }} n'existe pas. Veuillez vérifier le chemin."
+      when: not lab_unl_check.stat.exists
+
+    - name: Copier {{ source_file }} sur chaque VM EVE-NG
+      ansible.builtin.copy:
+        src: "{{ source_file }}"
+        dest: "{{ destination_path }}"
+        mode: '0644'
+      delegate_to: "{{ item.value }}"
+      become: yes
+      vars:
+        ansible_user: "{{ ssh_user }}"
+        ansible_password: "{{ ssh_password }}"
+        ansible_ssh_common_args: '-o StrictHostKeyChecking=no'
+      loop: "{{ vm_ip_map | dict2items }}"
+      loop_control:
+        label: "{{ item.key }}"
