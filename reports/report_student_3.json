@@ -1,0 +1,24 @@
+{
+    "differences": [
+        {
+            "path": "routers.ISP1.interfaces.Ethernet0/0.ip_address",
+            "solution": "193.134.0.1 255.255.255.0",
+            "student": "193.134.0.5 255.255.255.0"
+        },
+        {
+            "path": "routers.ISP1.interfaces.Ethernet0/3.status",
+            "solution": "no shutdown",
+            "student": "shutdown"
+        },
+        {
+            "path": "routers.ISP2.routing.rip.redistribute_connected",
+            "solution": true,
+            "student": false
+        },
+        {
+            "path": "routers.ISP2.routing.rip.redistribute_static",
+            "solution": true,
+            "student": false
+        }
+    ]
+}

@@ -1,0 +1,18 @@
+Differences found:
+
+Difference in routers.ISP1.interfaces.Ethernet0/0.ip_address:
+  Solution: 193.134.0.1 255.255.255.0
+  Student: 193.134.0.5 255.255.255.0
+
+Difference in routers.ISP1.interfaces.Ethernet0/3.status:
+  Solution: no shutdown
+  Student: shutdown
+
+Difference in routers.ISP2.routing.rip.redistribute_connected:
+  Solution: True
+  Student: False
+
+Difference in routers.ISP2.routing.rip.redistribute_static:
+  Solution: True
+  Student: False
+

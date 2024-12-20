@@ -1,0 +1,31 @@
+{
+    "differences": [
+        {
+            "path": "routers.StRoch.dhcp_pools.stroch_sr1",
+            "solution": {
+                "network": "10.2.1.0 255.255.255.0",
+                "default_router": "10.2.1.1",
+                "dns_server": "193.134.2.200"
+            },
+            "student": "Missing in student"
+        },
+        {
+            "path": "routers.StRoch.dhcp_pools.stroch_sr2",
+            "solution": {
+                "network": "10.2.2.0 255.255.255.0",
+                "default_router": "10.2.2.1",
+                "dns_server": "193.134.2.200"
+            },
+            "student": "Missing in student"
+        },
+        {
+            "path": "routers.B_COM.dhcp_pools.test-pool",
+            "solution": "Missing in solution",
+            "student": {
+                "network": "4.0.0.0 255.0.0.0",
+                "default_router": "4.0.0.1",
+                "dns_server": "8.8.8.8 8.8.4.4"
+            }
+        }
+    ]
+}
