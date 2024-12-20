@@ -1,4 +1,4 @@
-# EVE-NG_Automation_TB
+# EVE-NG_Automation
 
 ## 1. Déploiement des machines virtuelles
 Crée les machines virtuelles sur vSphere et enregistre leurs identifiants dans Vault.
