@@ -1,0 +1,42 @@
+# variables.yml
+
+# Admin SSH
+ssh_user: "root"
+ssh_password: "eve"
+
+# EVE-NG
+eve_ng_username: "admin"
+eve_ng_password: "eve"
+role: "admin"
+
+# Utilisateur système étudiant
+local_username: "rxi"
+
+# Configuration des VMs
+vm_base_name: "RXI_VM"
+vm_count: 1
+vm_template: "EVE-NG6_2025_template_tb_urizar"
+
+# Configuration réseau
+subnet_mask: "255.255.255.0"
+gateway: "10.190.139.1"
+dns_servers:
+  - <dns_server_1>
+  - <dns_server_2>
+ip_prefix: "10.190.139"
+starting_ip: 10
+
+# Configuration vSphere
+vm_datacenter: <vm_datacenter>
+vm_datastore: <vm_datastore>
+vm_folder: <vm_folder>
+network_name: <network_name>
+
+# Vault
+vault_url: <vault_url>
+vault_path_read: <vault_path_read>
+vault_path: <vault_path>
+
+# Deploy lab
+source_file: "../unl_files/7-DNS_OK.unl"
+destination_path: "/opt/unetlab/labs"
