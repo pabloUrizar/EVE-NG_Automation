@@ -1,0 +1,858 @@
+{
+    "nodes": {
+        "1": {
+            "name": "PC1",
+            "icon": "Laptop.png",
+            "interfaces": {
+                "e0": {
+                    "id": "0",
+                    "name": "e0",
+                    "network_id": "1",
+                    "network_name": "Cheseaux_SR1"
+                }
+            }
+        },
+        "2": {
+            "name": "PC2",
+            "icon": "Laptop.png",
+            "interfaces": {
+                "e0": {
+                    "id": "0",
+                    "name": "e0",
+                    "network_id": "1",
+                    "network_name": "Cheseaux_SR1"
+                }
+            }
+        },
+        "3": {
+            "name": "Cheseaux",
+            "icon": "Router.png",
+            "interfaces": {
+                "e0/0": {
+                    "id": "0",
+                    "name": "e0/0",
+                    "network_id": "1",
+                    "network_name": "Cheseaux_SR1"
+                },
+                "e0/1": {
+                    "id": "16",
+                    "name": "e0/1",
+                    "network_id": "2",
+                    "network_name": "Cheseaux_SR2"
+                },
+                "e0/2": {
+                    "id": "32",
+                    "name": "e0/2",
+                    "network_id": "8",
+                    "network_name": "Net-StRochiface_32"
+                },
+                "e0/3": {
+                    "id": "48",
+                    "name": "e0/3",
+                    "network_id": "7",
+                    "network_name": "Net-YParciface_32"
+                },
+                "e1/0": {
+                    "id": "1",
+                    "name": "e1/0",
+                    "network_id": "9",
+                    "network_name": "Net-Firewall_intiface_0"
+                }
+            }
+        },
+        "4": {
+            "name": "PC4",
+            "icon": "Laptop.png",
+            "interfaces": {
+                "e0": {
+                    "id": "0",
+                    "name": "e0",
+                    "network_id": "2",
+                    "network_name": "Cheseaux_SR2"
+                }
+            }
+        },
+        "5": {
+            "name": "PC5",
+            "icon": "Laptop.png",
+            "interfaces": {
+                "e0": {
+                    "id": "0",
+                    "name": "e0",
+                    "network_id": "3",
+                    "network_name": "StRoch_SR1"
+                }
+            }
+        },
+        "6": {
+            "name": "PC6",
+            "icon": "Laptop.png",
+            "interfaces": {
+                "e0": {
+                    "id": "0",
+                    "name": "e0",
+                    "network_id": "4",
+                    "network_name": "StRoch_SR2"
+                }
+            }
+        },
+        "7": {
+            "name": "PC7",
+            "icon": "Laptop.png",
+            "interfaces": {}
+        },
+        "8": {
+            "name": "PC8",
+            "icon": "Laptop.png",
+            "interfaces": {}
+        },
+        "9": {
+            "name": "PC3",
+            "icon": "Laptop.png",
+            "interfaces": {
+                "e0": {
+                    "id": "0",
+                    "name": "e0",
+                    "network_id": "2",
+                    "network_name": "Cheseaux_SR2"
+                }
+            }
+        },
+        "10": {
+            "name": "StRoch",
+            "icon": "Router.png",
+            "interfaces": {
+                "e0/0": {
+                    "id": "0",
+                    "name": "e0/0",
+                    "network_id": "3",
+                    "network_name": "StRoch_SR1"
+                },
+                "e0/1": {
+                    "id": "16",
+                    "name": "e0/1",
+                    "network_id": "4",
+                    "network_name": "StRoch_SR2"
+                },
+                "e0/2": {
+                    "id": "32",
+                    "name": "e0/2",
+                    "network_id": "8",
+                    "network_name": "Net-StRochiface_32"
+                }
+            }
+        },
+        "11": {
+            "name": "YParc",
+            "icon": "Router.png",
+            "interfaces": {
+                "e0/2": {
+                    "id": "32",
+                    "name": "e0/2",
+                    "network_id": "7",
+                    "network_name": "Net-YParciface_32"
+                }
+            }
+        },
+        "12": {
+            "name": "HEIG",
+            "icon": "Router.png",
+            "interfaces": {
+                "e0/0": {
+                    "id": "0",
+                    "name": "e0/0",
+                    "network_id": "10",
+                    "network_name": "Net-Firewall_intiface_1"
+                },
+                "e0/1": {
+                    "id": "16",
+                    "name": "e0/1",
+                    "network_id": "11",
+                    "network_name": "Net-HEIGiface_16"
+                },
+                "e0/2": {
+                    "id": "32",
+                    "name": "e0/2",
+                    "network_id": "20",
+                    "network_name": "switch-DMZ"
+                }
+            }
+        },
+        "13": {
+            "name": "Firewall_int",
+            "icon": "Firewall.png",
+            "interfaces": {
+                "e0": {
+                    "id": "0",
+                    "name": "e0",
+                    "network_id": "9",
+                    "network_name": "Net-Firewall_intiface_0"
+                },
+                "e1": {
+                    "id": "1",
+                    "name": "e1",
+                    "network_id": "10",
+                    "network_name": "Net-Firewall_intiface_1"
+                }
+            }
+        },
+        "15": {
+            "name": "Internet",
+            "icon": "Cloud.png",
+            "interfaces": {
+                "e0": {
+                    "id": "0",
+                    "name": "e0",
+                    "network_id": "11",
+                    "network_name": "Net-HEIGiface_16"
+                },
+                "e1": {
+                    "id": "1",
+                    "name": "e1",
+                    "network_id": "13",
+                    "network_name": "Net-Internetiface_1"
+                }
+            }
+        },
+        "14": {
+            "name": "ISP1",
+            "icon": "Router.png",
+            "interfaces": {
+                "e0/0": {
+                    "id": "0",
+                    "name": "e0/0",
+                    "network_id": "13",
+                    "network_name": "Net-Internetiface_1"
+                },
+                "e0/1": {
+                    "id": "16",
+                    "name": "e0/1",
+                    "network_id": "14",
+                    "network_name": "Net-ISP1iface_16"
+                },
+                "e0/2": {
+                    "id": "32",
+                    "name": "e0/2",
+                    "network_id": "18",
+                    "network_name": "switch"
+                },
+                "e0/3": {
+                    "id": "48",
+                    "name": "e0/3",
+                    "network_id": "17",
+                    "network_name": "Net-B_COMiface_32"
+                }
+            }
+        },
+        "16": {
+            "name": "ISP2",
+            "icon": "Router.png",
+            "interfaces": {
+                "e0/0": {
+                    "id": "0",
+                    "name": "e0/0",
+                    "network_id": "14",
+                    "network_name": "Net-ISP1iface_16"
+                },
+                "e0/1": {
+                    "id": "16",
+                    "name": "e0/1",
+                    "network_id": "15",
+                    "network_name": "Net-ISP2iface_16"
+                },
+                "e0/2": {
+                    "id": "32",
+                    "name": "e0/2",
+                    "network_id": "16",
+                    "network_name": "Net-ISP2iface_32"
+                }
+            }
+        },
+        "17": {
+            "name": "A_COM",
+            "icon": "Router.png",
+            "interfaces": {
+                "e0/0": {
+                    "id": "0",
+                    "name": "e0/0",
+                    "network_id": "15",
+                    "network_name": "Net-ISP2iface_16"
+                },
+                "e0/1": {
+                    "id": "16",
+                    "name": "e0/1",
+                    "network_id": "12",
+                    "network_name": "switch"
+                }
+            }
+        },
+        "18": {
+            "name": "B_COM",
+            "icon": "Router.png",
+            "interfaces": {
+                "e0/0": {
+                    "id": "0",
+                    "name": "e0/0",
+                    "network_id": "16",
+                    "network_name": "Net-ISP2iface_32"
+                },
+                "e0/1": {
+                    "id": "16",
+                    "name": "e0/1",
+                    "network_id": "19",
+                    "network_name": "switch"
+                },
+                "e0/2": {
+                    "id": "32",
+                    "name": "e0/2",
+                    "network_id": "17",
+                    "network_name": "Net-B_COMiface_32"
+                }
+            }
+        },
+        "19": {
+            "name": "srv_a_com",
+            "icon": "Server.png",
+            "interfaces": {
+                "e0": {
+                    "id": "0",
+                    "name": "e0",
+                    "network_id": "12",
+                    "network_name": "switch"
+                }
+            }
+        },
+        "20": {
+            "name": "srv_b_com",
+            "icon": "Server.png",
+            "interfaces": {
+                "e0": {
+                    "id": "0",
+                    "name": "e0",
+                    "network_id": "19",
+                    "network_name": "switch"
+                }
+            }
+        },
+        "21": {
+            "name": "a-root",
+            "icon": "Server.png",
+            "interfaces": {
+                "e0": {
+                    "id": "0",
+                    "name": "e0",
+                    "network_id": "18",
+                    "network_name": "switch"
+                }
+            }
+        },
+        "22": {
+            "name": "a-gtld",
+            "icon": "Server.png",
+            "interfaces": {
+                "e0": {
+                    "id": "0",
+                    "name": "e0",
+                    "network_id": "18",
+                    "network_name": "switch"
+                }
+            }
+        },
+        "23": {
+            "name": "a-nic",
+            "icon": "Server.png",
+            "interfaces": {
+                "e0": {
+                    "id": "0",
+                    "name": "e0",
+                    "network_id": "18",
+                    "network_name": "switch"
+                }
+            }
+        },
+        "24": {
+            "name": "ns_a_com",
+            "icon": "Server.png",
+            "interfaces": {
+                "e0": {
+                    "id": "0",
+                    "name": "e0",
+                    "network_id": "12",
+                    "network_name": "switch"
+                }
+            }
+        },
+        "25": {
+            "name": "ns_b_com",
+            "icon": "Server.png",
+            "interfaces": {
+                "e0": {
+                    "id": "0",
+                    "name": "e0",
+                    "network_id": "19",
+                    "network_name": "switch"
+                }
+            }
+        },
+        "26": {
+            "name": "ns_heig",
+            "icon": "Server.png",
+            "interfaces": {
+                "e0": {
+                    "id": "0",
+                    "name": "e0",
+                    "network_id": "20",
+                    "network_name": "switch-DMZ"
+                }
+            }
+        }
+    },
+    "routers": {
+        "3": {
+            "config": "Missing configuration",
+            "name": "Cheseaux"
+        },
+        "10": {
+            "version": "15.4",
+            "hostname": "StRoch",
+            "interfaces": {
+                "Ethernet0/0": {
+                    "status": "no shutdown",
+                    "ip_address": "10.2.1.1 255.255.255.0"
+                },
+                "Ethernet0/1": {
+                    "status": "no shutdown",
+                    "ip_address": "10.2.2.1 255.255.255.0"
+                },
+                "Ethernet0/2": {
+                    "status": "no shutdown",
+                    "ip_address": "10.2.0.1 255.255.255.252"
+                },
+                "Ethernet0/3": {
+                    "status": "shutdown",
+                    "ip_address": "address"
+                }
+            },
+            "routing": {
+                "rip": {
+                    "version": null,
+                    "redistribute_connected": false,
+                    "redistribute_static": false,
+                    "flash_update_threshold": null,
+                    "network": null
+                }
+            },
+            "static_routes": [
+                "0.0.0.0 0.0.0.0 10.2.0.2"
+            ],
+            "dhcp_pools": {
+                "stroch_sr1": {
+                    "network": "10.2.1.0 255.255.255.0",
+                    "default_router": "10.2.1.1",
+                    "dns_server": "193.134.2.200"
+                },
+                "stroch_sr2": {
+                    "network": "10.2.2.0 255.255.255.0",
+                    "default_router": "10.2.2.1",
+                    "dns_server": "193.134.2.200"
+                }
+            },
+            "protocols": {
+                "ip_forward": null
+            },
+            "lines": {
+                "console": {
+                    "logging_synchronous": false
+                },
+                "vty": {
+                    "login": false,
+                    "transport_input": null
+                }
+            },
+            "settings": {
+                "service_timestamps": {
+                    "debug": "debug datetime msec",
+                    "log": "log datetime msec"
+                },
+                "password_encryption": false,
+                "clock_timezone": "EET 2 0"
+            },
+            "name": "StRoch"
+        },
+        "11": {
+            "version": "15.4",
+            "hostname": "YParc",
+            "interfaces": {
+                "Ethernet0/0": {
+                    "status": "no shutdown",
+                    "ip_address": "10.3.1.1 255.255.255.0",
+                    "ipv6_address": "2001:1:1:5::1/64"
+                },
+                "Ethernet0/1": {
+                    "status": "no shutdown",
+                    "ip_address": "10.3.2.1 255.255.255.0",
+                    "ipv6_address": "2001:1:1:6::1/64"
+                },
+                "Ethernet0/2": {
+                    "status": "no shutdown",
+                    "ip_address": "10.3.0.1 255.255.255.252",
+                    "ipv6_address": "2001:1:1:7::2/64"
+                },
+                "Ethernet0/3": {
+                    "status": "shutdown",
+                    "ip_address": "address"
+                }
+            },
+            "routing": {
+                "rip": {
+                    "version": null,
+                    "redistribute_connected": false,
+                    "redistribute_static": false,
+                    "flash_update_threshold": null,
+                    "network": null
+                }
+            },
+            "static_routes": [
+                "0.0.0.0 0.0.0.0 10.3.0.2"
+            ],
+            "dhcp_pools": {
+                "yparc_sr1": {
+                    "network": "10.3.1.0 255.255.255.0",
+                    "default_router": "10.3.1.1",
+                    "dns_server": "193.134.2.200"
+                },
+                "yparc_sr2": {
+                    "network": "10.3.2.0 255.255.255.0",
+                    "default_router": "10.3.2.1",
+                    "dns_server": "193.134.2.200"
+                }
+            },
+            "protocols": {
+                "ip_forward": null
+            },
+            "lines": {
+                "console": {
+                    "logging_synchronous": false
+                },
+                "vty": {
+                    "login": false,
+                    "transport_input": null
+                }
+            },
+            "settings": {
+                "service_timestamps": {
+                    "debug": "debug datetime msec",
+                    "log": "log datetime msec"
+                },
+                "password_encryption": false,
+                "clock_timezone": "EET 2 0"
+            },
+            "name": "YParc"
+        },
+        "12": {
+            "version": "15.4",
+            "hostname": "HEIG",
+            "interfaces": {
+                "Ethernet0/0": {
+                    "status": "no shutdown",
+                    "ip_address": "10.0.0.2 255.255.255.252",
+                    "ipv6_address": "2001:1:1:1::1/64"
+                },
+                "Ethernet0/1": {
+                    "status": "no shutdown",
+                    "ip_address": "193.134.0.2 255.255.255.0",
+                    "ipv6_address": "2000:1::2/64"
+                },
+                "Ethernet0/2": {
+                    "status": "no shutdown",
+                    "description": "DMS HEIG",
+                    "ip_address": "193.134.2.1 255.255.255.0"
+                },
+                "Ethernet0/3": {
+                    "status": "shutdown",
+                    "ip_address": "address"
+                }
+            },
+            "routing": {
+                "rip": {
+                    "version": 2,
+                    "redistribute_connected": false,
+                    "redistribute_static": false,
+                    "flash_update_threshold": null,
+                    "network": "0.0.0.0"
+                }
+            },
+            "static_routes": [
+                "0.0.0.0 0.0.0.0 193.134.0.1",
+                "10.0.0.0 255.0.0.0 10.0.0.1",
+                "2001:1:1::/48 2001:1:1:1::2"
+            ],
+            "dhcp_pools": {},
+            "protocols": {
+                "ip_forward": null
+            },
+            "lines": {
+                "console": {
+                    "logging_synchronous": false
+                },
+                "vty": {
+                    "login": false,
+                    "transport_input": null
+                }
+            },
+            "settings": {
+                "service_timestamps": {
+                    "debug": "debug datetime msec",
+                    "log": "log datetime msec"
+                },
+                "password_encryption": false,
+                "clock_timezone": "EET 2 0"
+            },
+            "name": "HEIG"
+        },
+        "14": {
+            "version": "15.4",
+            "hostname": "ISP1",
+            "interfaces": {
+                "Ethernet0/0": {
+                    "status": "no shutdown",
+                    "description": "-> HEIG (via Internet)",
+                    "ip_address": "193.134.0.1 255.255.255.0",
+                    "ipv6_address": "2000:1::1/64"
+                },
+                "Ethernet0/1": {
+                    "status": "no shutdown",
+                    "description": "-> ISP2",
+                    "ip_address": "2.0.0.1 255.0.0.0",
+                    "ipv6_address": "2000:5::2/64"
+                },
+                "Ethernet0/2": {
+                    "status": "no shutdown",
+                    "description": "LAN DNS",
+                    "ip_address": "8.0.0.1 255.0.0.0"
+                },
+                "Ethernet0/3": {
+                    "status": "no shutdown",
+                    "description": "-> B_COM",
+                    "ip_address": "7.0.0.1 255.0.0.0",
+                    "ipv6_address": "2000:3::1/64"
+                }
+            },
+            "routing": {
+                "rip": {
+                    "version": 2,
+                    "redistribute_connected": true,
+                    "redistribute_static": true,
+                    "flash_update_threshold": null,
+                    "network": "0.0.0.0"
+                }
+            },
+            "static_routes": [
+                "193.134.2.0 255.255.255.0 193.134.0.2"
+            ],
+            "dhcp_pools": {},
+            "protocols": {
+                "ip_forward": null
+            },
+            "lines": {
+                "console": {
+                    "logging_synchronous": false
+                },
+                "vty": {
+                    "login": false,
+                    "transport_input": null
+                }
+            },
+            "settings": {
+                "service_timestamps": {
+                    "debug": "debug datetime msec",
+                    "log": "log datetime msec"
+                },
+                "password_encryption": false,
+                "clock_timezone": "EET 2 0"
+            },
+            "name": "ISP1"
+        },
+        "16": {
+            "version": "15.4",
+            "hostname": "ISP2",
+            "interfaces": {
+                "Ethernet0/0": {
+                    "status": "no shutdown",
+                    "description": "-> ISP1",
+                    "ip_address": "2.0.0.2 255.255.255.0",
+                    "ipv6_address": "2000:5::1/64"
+                },
+                "Ethernet0/1": {
+                    "status": "no shutdown",
+                    "description": "-> A_COM",
+                    "ip_address": "5.0.0.1 255.0.0.0",
+                    "ipv6_address": "2000:7::1/64"
+                },
+                "Ethernet0/2": {
+                    "status": "no shutdown",
+                    "description": "-> B_COM",
+                    "ip_address": "3.0.0.1 255.0.0.0",
+                    "ipv6_address": "2000:4::1/64"
+                },
+                "Ethernet0/3": {
+                    "status": "no shutdown",
+                    "description": "lien sur le vrai Internet via NAT",
+                    "ip_address": "dhcp"
+                }
+            },
+            "routing": {
+                "rip": {
+                    "version": 2,
+                    "redistribute_connected": true,
+                    "redistribute_static": true,
+                    "flash_update_threshold": "2",
+                    "network": "0.0.0.0"
+                }
+            },
+            "static_routes": [
+                "0.0.0.0 0.0.0.0 192.168.81.2"
+            ],
+            "dhcp_pools": {},
+            "protocols": {
+                "ip_forward": null
+            },
+            "lines": {
+                "console": {
+                    "logging_synchronous": false
+                },
+                "vty": {
+                    "login": false,
+                    "transport_input": null
+                }
+            },
+            "settings": {
+                "service_timestamps": {
+                    "debug": "debug datetime msec",
+                    "log": "log datetime msec"
+                },
+                "password_encryption": false,
+                "clock_timezone": "EET 2 0"
+            },
+            "name": "ISP2"
+        },
+        "17": {
+            "version": "15.4",
+            "hostname": "A_COM",
+            "interfaces": {
+                "Ethernet0/0": {
+                    "status": "no shutdown",
+                    "description": "->ISP2",
+                    "ip_address": "5.0.0.2 255.0.0.0",
+                    "ipv6_address": "2000:7::2/64"
+                },
+                "Ethernet0/1": {
+                    "status": "no shutdown",
+                    "description": "->LAN a.com",
+                    "ip_address": "6.0.0.1 255.0.0.0",
+                    "ipv6_address": "2100:100:100:100::1/64"
+                },
+                "Ethernet0/2": {
+                    "status": "shutdown",
+                    "ip_address": "address"
+                },
+                "Ethernet0/3": {
+                    "status": "shutdown",
+                    "ip_address": "address"
+                }
+            },
+            "routing": {
+                "rip": {
+                    "version": 2,
+                    "redistribute_connected": true,
+                    "redistribute_static": false,
+                    "flash_update_threshold": null,
+                    "network": "0.0.0.0"
+                }
+            },
+            "static_routes": [],
+            "dhcp_pools": {},
+            "protocols": {
+                "ip_forward": null
+            },
+            "lines": {
+                "console": {
+                    "logging_synchronous": false
+                },
+                "vty": {
+                    "login": false,
+                    "transport_input": null
+                }
+            },
+            "settings": {
+                "service_timestamps": {
+                    "debug": "debug datetime msec",
+                    "log": "log datetime msec"
+                },
+                "password_encryption": false,
+                "clock_timezone": "EET 2 0"
+            },
+            "name": "A_COM"
+        },
+        "18": {
+            "version": "15.4",
+            "hostname": "B_COM",
+            "interfaces": {
+                "Ethernet0/0": {
+                    "status": "no shutdown",
+                    "description": "->ISP2",
+                    "ip_address": "3.0.0.2 255.0.0.0",
+                    "ipv6_address": "2000:4::2/64"
+                },
+                "Ethernet0/1": {
+                    "status": "no shutdown",
+                    "description": "-> LAN b.com",
+                    "ip_address": "4.0.0.1 255.0.0.0",
+                    "ipv6_address": "3999:9:9:9::1/64"
+                },
+                "Ethernet0/2": {
+                    "status": "no shutdown",
+                    "description": "-> ISP1",
+                    "ip_address": "7.0.0.2 255.0.0.0",
+                    "ipv6_address": "2000:3::2/64"
+                },
+                "Ethernet0/3": {
+                    "status": "shutdown",
+                    "ip_address": "address"
+                }
+            },
+            "routing": {
+                "rip": {
+                    "version": 2,
+                    "redistribute_connected": true,
+                    "redistribute_static": false,
+                    "flash_update_threshold": null,
+                    "network": "0.0.0.0"
+                }
+            },
+            "static_routes": [],
+            "dhcp_pools": {},
+            "protocols": {
+                "ip_forward": null
+            },
+            "lines": {
+                "console": {
+                    "logging_synchronous": false
+                },
+                "vty": {
+                    "login": false,
+                    "transport_input": null
+                }
+            },
+            "settings": {
+                "service_timestamps": {
+                    "debug": "debug datetime msec",
+                    "log": "log datetime msec"
+                },
+                "password_encryption": false,
+                "clock_timezone": "EET 2 0"
+            },
+            "name": "B_COM"
+        }
+    }
+}
