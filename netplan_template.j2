@@ -1,0 +1,19 @@
+# No longer used, just for documentation purposes.
+
+network:
+  version: 2
+  renderer: networkd
+  ethernets:
+    eth0:
+      dhcp4: no
+      dhcp6: no
+      addresses:
+        - {{ item.value }}/24  # Utilisation de l'adresse IP spécifiée pour eth0
+      routes:
+        - to: default
+          via: {{ gateway }}
+      nameservers:
+        addresses:
+          {% for dns in dns_servers %}
+          - {{ dns }}
+          {% endfor %}
